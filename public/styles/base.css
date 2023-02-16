@@ -1,0 +1,129 @@
+* {
+  font-family: 'Noto Sans TC', sans-serif;
+  font-family: 'Roboto Condensed', sans-serif;
+  box-sizing: border-box;
+}
+
+html {
+  --color-brighness-1: rgba(255,253,192,1);
+  --color-brighness-2: rgba(255,251,203,1);
+  --color-brighness-3: rgba(255,232,105,1);
+
+  --color-darkness-1: rgba(22,135,167,1);
+  --color-darkness-2: rgba(0,87,146,1);
+  --color-darkness-3: rgba(32,54,107,1);
+  --color-darkness-4: rgba(45,9,92,1);
+
+  --font-color-primary-100: rgba(234,234,234,1);
+  --font-color-primary-400: rgba(163,158,158,1);
+  --font-color-primary-700: rgba(45,45,45,1);
+  --font-color-primary-900: rgba(15,15,15,1);
+  
+  --shadow-box-small: 1px 1px 1px 1px rgba(238,238,238,1);
+  --shadow-box-medium: 2px 2px 2px 4px rgba(234,234,234,0.5);
+  --shadow-box-down: 1px 0px 5px 5px rgba(181, 180, 180, 0.1);
+
+  --border-radius-small: 6px;
+  --border-radius-medium: 12px;
+  --border-radius-avatar: 50%;
+
+  --font-small: 0.5rem;
+  --font-origin: 1rem;
+  --font-medium: 1.5rem;
+  --font-medium-plus: 2rem;
+  --font-big: 3rem;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+ul,
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+#main-header {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  margin: 0 auto;
+  height: 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow-box-down);
+}
+
+#header-logo {
+  padding-left: var(--space-4);
+}
+
+#header-logo a{
+  font-size: var(--font-origin);
+  color: var(--color-primary-900);
+  transition: 0.3s ease;
+}
+
+#header-logo a:hover,
+#header-logo a:active {
+  color: var(--font-color-primary-400);
+}
+
+#main-header ul {
+  display: flex;
+}
+
+#nav-items li {
+  padding: 0 var(--space-1);
+}
+
+#nav-items li a{
+  padding: var(--space-2);
+  color: var(--color-primary-900);
+  border-radius: var(--border-radius-small);
+  transition: 0.3s ease-in-out;
+  font-size: var(--font-small);
+  letter-spacing: 0.07rem;
+}
+
+#nav-items li a:hover,
+#nav-items li a:active{
+  color: white;
+  background-color: var(--font-color-primary-900);
+}
+
+@media (min-width: 48rem) {
+  #main-header {
+    position: static;
+    padding: 0 5rem;
+  }
+
+  #header {
+    padding: none;
+  }
+
+  #header-logo a{
+    font-size: var(--font-medium);
+  }
+
+  #nav-items li {
+    padding: 0 1rem;
+  }
+
+  #nav-items li a{
+    font-size: var(--font-origin);
+  }
+}
