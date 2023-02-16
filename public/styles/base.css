@@ -21,6 +21,7 @@ html {
   
   --shadow-box-small: 1px 1px 1px 1px rgba(238,238,238,1);
   --shadow-box-medium: 2px 2px 2px 4px rgba(234,234,234,0.5);
+  --shadow-box-large: 4px 4px 4px 4px rgba(230,230,230,1);
   --shadow-box-down: 1px 0px 5px 5px rgba(181, 180, 180, 0.1);
 
   --border-radius-small: 6px;
@@ -65,6 +66,8 @@ a {
   justify-content: space-between;
   align-items: center;
   box-shadow: var(--shadow-box-down);
+  z-index: 100;
+  background-color: white;
 }
 
 #header-logo {
