@@ -1,3 +1,7 @@
+main {
+  margin-top: 8rem;
+}
+
 #article {
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;
@@ -5,11 +9,11 @@
   max-width: 60rem;
   margin: 0 auto;
   padding: 0;
-  margin-top: 4rem;
+  margin-top: 3rem;
 }
 
 #article li {
-  margin: 0 auto;
+  margin: 1rem auto;
   padding: 1rem;
   box-shadow: var(--shadow-box-medium);
   transition: 0.3s ease-in;
@@ -48,9 +52,17 @@
 }
 
 @media (min-width: 48rem) {
+  main {
+    margin: 0;
+  }
+  
   #article {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     margin-top: 4rem;
+  }
+
+  #article li {
+    margin: 0 auto;
   }
 }
