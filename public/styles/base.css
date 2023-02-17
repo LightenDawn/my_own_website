@@ -17,6 +17,7 @@ html {
 
   --color-error-light: rgba(246,0,60,1);
   --color-error-dark: rgba(228,23,73,1);
+  --color-error-background: rgba(248,220,220,1);
 
   --font-color-primary-100: rgba(234,234,234,1);
   --font-color-primary-400: rgba(163,158,158,1);

@@ -24,15 +24,28 @@ class User {
     }
   }
 
-  async userAlreadyExist(email) {
+  async userAlreadyExist() {
     try {
       const user = await db
         .getDb()
         .collection("users")
-        .findOne({ email: email });
+        .findOne({ email: this.email });
       return user;
     } catch (error) {
       console.log(error);
+      return;
+    }
+  }
+
+  async nicknameAlreadyUse() {
+    try {
+      const user = await db.getDb().collection("users").findOne({
+        nickname: this.nickname,
+      });
+      return user;
+    } catch (error) {
+      console.log(error);
+      return;
     }
   }
 }

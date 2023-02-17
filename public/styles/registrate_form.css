@@ -51,6 +51,21 @@ main h1 {
   background-color: var(--color-brightness-3);
 }
 
+#error {
+  margin-top: var(--space-2);
+  display: flex;
+  background-color: var(--color-error-background);
+  height: var(--space-8);
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--border-radius-small);
+}
+
+#error-message {
+  color: var(--color-error-light);
+  font-weight: bold;
+}
+
 @media (min-width: 48rem) {
   body {
     height: 100vh;
