@@ -16,7 +16,7 @@ main {
   margin: 1rem auto;
   padding: 1rem;
   box-shadow: var(--shadow-box-medium);
-  transition: 0.3s ease-in;
+  transition: all 0.3s ease-in-out;
 }
 
 #article li:hover,
