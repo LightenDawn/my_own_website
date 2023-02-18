@@ -80,11 +80,11 @@ a {
 }
 
 #header-logo {
-  padding-left: var(--space-4);
+  padding-left: var(--space-2);
 }
 
 #header-logo a{
-  font-size: var(--font-origin);
+  font-size: 0.75rem;
   color: var(--color-primary-900);
   transition: 0.3s ease;
 }
@@ -103,7 +103,11 @@ a {
 }
 
 #nav-items li a{
-  padding: var(--space-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 4rem;
+  padding: var(--space-1);
   color: var(--color-primary-900);
   border-radius: var(--border-radius-small);
   transition: 0.3s ease-in-out;
@@ -117,6 +121,26 @@ a {
   background-color: var(--font-color-primary-900);
 }
 
+#nav-items form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#nav-items button {
+  font-size: var(--space-2);
+  width: 4rem;
+  height: 2rem;
+  padding: 0;
+  margin-right: 0.5rem;
+  transition: 0.3s ease-in-out;
+}
+
+#nav-items button:hover,
+#nav-items button:active {
+  background-color: var(--font-color-primary-700);
+}
+
 .btn {
   font: inherit;
   border: none;
@@ -127,7 +151,20 @@ a {
   border-radius: var(--border-radius-small);
 }
 
+.btn-alt {
+  color: white;
+  background-color: var(--font-color-primary-400);
+}
+
 @media (min-width: 48rem) {
+  #header-logo {
+    padding-left: var(--space-4);
+  }
+
+  #header-logo a{
+    font-size: var(--font-medium);
+  }
+  
   #main-header {
     position: static;
     padding: 0 5rem;
@@ -137,15 +174,16 @@ a {
     padding: none;
   }
 
-  #header-logo a{
-    font-size: var(--font-medium);
-  }
-
   #nav-items li {
     padding: 0 1rem;
   }
 
   #nav-items li a{
     font-size: var(--font-origin);
+    height: var(--space-8);
+  }
+
+  #nav-items button {
+    margin-left: 1rem;
   }
 }

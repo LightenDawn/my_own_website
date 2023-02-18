@@ -53,12 +53,11 @@ main h1 {
 
 #error {
   margin-top: var(--space-2);
-  display: flex;
   background-color: var(--color-error-background);
-  height: var(--space-8);
-  align-items: center;
-  justify-content: center;
+  height: 3rem;
+  text-align: center;
   border-radius: var(--border-radius-small);
+  padding: 0 0.1rem;
 }
 
 #error-message {
@@ -74,5 +73,12 @@ main h1 {
   main {
     margin: 4rem auto;
     max-width: 30rem;
+  }
+
+  #error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: var(--space-8);
   }
 }

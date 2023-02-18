@@ -48,6 +48,11 @@ class User {
       return;
     }
   }
+
+  async comparePassword(storedData) {
+    const comparePassword = await bcrypt.compare(this.password, storedData);
+    return comparePassword;
+  }
 }
 
 module.exports = User;

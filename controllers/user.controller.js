@@ -1,6 +1,7 @@
 const User = require("../models/user.model");
 const validation = require("../util/validation");
 const sessionFlash = require("../util/session-flash");
+const authentication = require("../util/authentication");
 
 function signup(req, res) {
   let sessionData = sessionFlash.getSessionData(req);
@@ -97,7 +98,75 @@ async function userSign(req, res) {
   res.redirect("/");
 }
 
+function login(req, res) {
+  let sessionData = sessionFlash.getSessionData(req);
+
+  if (!sessionData) {
+    sessionData = {
+      email: "",
+      password: "",
+    };
+  }
+
+  res.render("users/login", { inputData: sessionData });
+}
+
+async function userLogin(req, res) {
+  const enteredData = {
+    email: req.body.email,
+    password: req.body.password,
+  };
+
+  const user = new User("", "", req.body.email, "", req.body.password);
+
+  // 確認資料庫中是否有符合資料的使用者
+  const userExist = await user.userAlreadyExist();
+
+  if (!userExist) {
+    sessionFlash.flashDataToSession(
+      req,
+      {
+        errorMessage: "請確認資料輸入是否正確",
+        ...enteredData,
+      },
+      function () {
+        res.redirect("/login");
+      }
+    );
+    return;
+  }
+
+  const isSamePassword = await user.comparePassword(userExist.password);
+
+  if (!isSamePassword) {
+    sessionFlash.flashDataToSession(
+      req,
+      {
+        errorMessage: "請確認資料輸入是否正確",
+        ...enteredData,
+      },
+      function () {
+        res.redirect("/login");
+      }
+    );
+    return;
+  }
+
+  authentication.createUserSession(req, userExist, function () {
+    res.redirect("/");
+  });
+}
+
+function userLogout(req, res) {
+  authentication.destroyUserAuthSession(req);
+
+  res.redirect('/');
+}
+
 module.exports = {
   signup: signup,
   userSign: userSign,
+  login: login,
+  userLogin: userLogin,
+  userLogout: userLogout
 };
