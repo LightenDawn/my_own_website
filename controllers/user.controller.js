@@ -16,7 +16,7 @@ function signup(req, res) {
     };
   }
 
-  res.render("users/signup", { inputData: sessionData });
+  res.render("users/auth/signup", { inputData: sessionData });
 }
 
 async function userSign(req, res) {
@@ -108,7 +108,7 @@ function login(req, res) {
     };
   }
 
-  res.render("users/login", { inputData: sessionData });
+  res.render("users/auth/login", { inputData: sessionData });
 }
 
 async function userLogin(req, res) {

@@ -1,8 +1,8 @@
-<%- include('../shared/includes/head', { pageTitle: '註冊頁面' }) %>
+<%- include('../../shared/includes/head', { pageTitle: '登入頁面' }) %>
   <link rel="stylesheet" href="/styles/registrate_form.css">
 </head>
 <body>
-<%- include('../shared/includes/header') %>
+<%- include('../../shared/includes/header') %>
   <main>
     <h1>使用者登入</h1>
     <% if (inputData.errorMessage) { %>
@@ -27,4 +27,4 @@
       </div>
     </form>
   </main>
-<%- include('../shared/includes/footer') %>
+<%- include('../../shared/includes/footer') %>

@@ -11,6 +11,7 @@ const checkAuth = require('./middlewares/checkAuth');
 const db = require("./data/database");
 const baseRoute = require("./routes/base.route");
 const userRoute = require("./routes/user.route");
+const articleRoute = require('./routes/article.route');
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.use(checkAuth);
 
 app.use(baseRoute);
 app.use(userRoute);
+app.use(articleRoute);
 
 app.use(errorHandlerMiddleware);
 

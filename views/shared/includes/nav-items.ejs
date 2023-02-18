@@ -1,4 +1,4 @@
-  <li><a href="/">發表文章</a></li>
+  <li><a href="createYourArticle">發表文章</a></li>
   <% if (!locals.isAuth) { %>
   <li><a href="/signup">帳號申請</a></li>
   <li><a href="/login">登入</a></li>
@@ -9,7 +9,7 @@
   <% } %>
 
   <% if (locals.isAdmin) { %>
-  <li><a href="">管理文章</a></li>
+  <li><a href="/">管理文章</a></li>
   <% } %>
 
   <% if (locals.isAuth) { %>
