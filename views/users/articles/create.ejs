@@ -1,7 +1,38 @@
 <%- include('../../shared/includes/head', { pageTitle: '建立文章' }) %>
+  <link rel="stylesheet" href="/styles/article.css">
 </head>
 <body>
   <%- include('../../shared/includes/header') %>
-
+  <main>
+    <h1>建立文章</h1>
+    <form id="post_article" action="/createYourArticle?_csrf=<%= locals.csrfToken %>" method="POST" enctype="multipart/form-data">
+      <p id="article-title">
+        <span>*</span>
+        <label for="title">標題 ：</label>
+        <input type="text" name="title" id="title" minlength="1" maxlength="40" required>
+        <span>(限40個中文字)</span>
+      </p>
+      <p>
+        <span>*</span> 分類 ：
+        <select id="select" name="myCategory">
+          <% for (const category of categories) { %>
+            <option value="<%= category._id %>" id="change"><%= category.title %></option>
+          <% } %>
+        </select>
+      </p>
+      <p id="content-block">
+        <label for="content"><span>*</span> 文章內容 ：</label>
+        <textarea name="content" id="content" cols="100" rows="25" placeholder="寫出屬於自己的文章" required></textarea>
+      </p>
+      <p id="image-block">
+        <span></span>
+        <label for="image">封面圖 ：</label>
+        <input type="file" id="image" name="image" accept="image/*">
+      </p>
+      <div id="submit">
+        <button class="btn">確定送出</button>
+      </div>
+    </form>
+  </main>
 
 <%- include('../../shared/includes/footer') %>

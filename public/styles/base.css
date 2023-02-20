@@ -10,10 +10,10 @@ html {
   --color-brightness-3: rgb(251, 240, 157);
   --color-brightness-4: rgba(255,232,105,1);
 
-  --color-darkness-1: rgba(22,135,167,1);
-  --color-darkness-2: rgba(0,87,146,1);
-  --color-darkness-3: rgba(32,54,107,1);
-  --color-darkness-4: rgba(45,9,92,1);
+  --color-pink-1: rgba(248,220,220,0.8);
+  --color-pink-2: rgba(246,194,194,1);
+  --color-pink-3: rgba(255,182,185,1);
+  --color-pink-4: rgba(255,192,190,1);
 
   --color-error-light: rgba(246,0,60,1);
   --color-error-dark: rgba(228,23,73,1);
@@ -28,6 +28,7 @@ html {
   --shadow-box-medium: 2px 2px 2px 4px rgba(208, 208, 208, 0.5);
   --shadow-box-large: 4px 4px 4px 4px rgba(230,230,230,1);
   --shadow-box-down: 1px 0px 5px 5px rgba(181, 180, 180, 0.1);
+  --shadow-article: 4px 4px 16px 6px rgba(0, 0, 0, 0.2);
 
   --border-radius-small: 6px;
   --border-radius-medium: 12px;

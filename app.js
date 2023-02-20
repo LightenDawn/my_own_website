@@ -20,6 +20,7 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: false }));
 
 app.use(express.static("public"));
+app.use('/cover/images', express.static('upload_image'));
 
 const sessionConfig = createSessionConfig();
 
