@@ -6,6 +6,8 @@
 
 body {
   background-color: var(--color-pink-1);
+  /* height: 100vh;
+  height: calc(var(--vh, 1vh) * 100 - 20rem); */
 }
 
 main {
@@ -41,6 +43,7 @@ main h1 {
 
 #post_article #title:focus {
   background-color: var(--font-color-primary-100);
+  font-weight: bold;
   opacity: 0.7;
 }
 
@@ -98,6 +101,33 @@ main h1 {
   background-color: var(--color-brightness-3);
 }
 
+#login {
+  max-width: 40rem;
+  margin-top: 20rem;
+}
+
+#login h1 { 
+   font-size: var(--space-4);
+}
+
+#login-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2.5rem;
+}
+
+#login-btn a {
+  color: var(--font-color-primary-900);
+  background-color: var(--color-pink-3);
+  font-size: var(--space-2);
+}
+
+#login-btn a:hover,
+#login-btn a:active {
+  background-color: var(--color-pink-2);
+}
+
 @media (min-width: 48rem) {
   main {
     margin: 5rem auto;
@@ -116,5 +146,18 @@ main h1 {
     height: 1.8rem;
     border-radius: var(--border-radius-small);
     padding-left: var(--space-1);
+  }
+
+  #login {
+    max-width: 30rem;
+    margin: 8rem auto 4rem auto;
+  }
+
+  #login h1 { 
+    font-size: var(--space-6);
+ }
+
+  #login-btn a {
+    font-size: var(--space-4);
   }
 }

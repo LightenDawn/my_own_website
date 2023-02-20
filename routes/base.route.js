@@ -1,21 +1,15 @@
 const express = require('express');
 
+const homeController = require('../controllers/home.controller');
+
 const router = express.Router();
 
-router.get('/', function(req, res) {
-  res.render('base/home');
-});
+router.get('/', homeController.backHome);
 
-router.get('/500', function(req,res) {
-  res.render('shared/500');
-});
+router.get('/401', homeController.errorPage_401);
 
-router.get('/401', function(req, res) {
-  res.render('shared/401');
-});
+router.get('/403', homeController.errorPage_403);
 
-router.get('/403', function(req, res) {
-  res.render('shared/403');
-});
+router.get('/500', homeController.errorPage_500);
 
 module.exports = router;
