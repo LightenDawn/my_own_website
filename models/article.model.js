@@ -68,6 +68,19 @@ class Article {
     }
   }
 
+  static async deleteArticle(id) {
+    const articleId = new mongodb.ObjectId(id);
+    if (!articleId) {
+      console.log("沒有這篇文章");
+      return;
+    } else {
+      return await db
+        .getDb()
+        .collection("articles")
+        .deleteOne({ _id: articleId });
+    }
+  }
+
   static async findArticleDetail(id) {
     try {
       const articleId = new mongodb.ObjectId(id);

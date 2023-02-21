@@ -11,4 +11,6 @@ router.post('/createYourArticle', imageUploadMiddleware,articleController.upload
 
 router.get('/article_detail/:id', imageUploadMiddleware, articleController.detailArticle);
 
+router.post('/article_detail/delete/:id', articleController.deleteArticle);
+
 module.exports = router;

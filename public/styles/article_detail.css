@@ -64,7 +64,7 @@ main p span {
   opacity: 0.8;
 }
 
-#delete a:hover::before {
+#delete button:hover::before {
   content: '刪除文章';
   position: absolute;
   display: flex;
@@ -97,6 +97,14 @@ main p span {
   margin-top: -1rem;
 }
 
+#delete button {
+  border: none;
+  background-color: rgba(222,220,238,1);
+  color: rgba(100,65,164,1);
+  cursor: pointer;
+  font: inherit;
+}
+
 .tools {
   float: right;
   margin-top: -0.5rem;
@@ -104,7 +112,7 @@ main p span {
   position: relative;
 }
 
-.tools button {
+.tools button#function {
   position: relative;
   background-color: var(--color-brightness-1);
   border: none;
@@ -120,12 +128,12 @@ main p span {
   margin-top: -1rem;
 }
 
-.tools button:hover {
+.tools button#function:hover {
   transform: scale(1.25);
   background-color: var(--font-color-primary-100);
 }
 
-.tools button:hover::before {
+.tools button#function:hover::before {
   content: '額外功能';
   position: absolute;
   display: flex;
@@ -142,7 +150,7 @@ main p span {
   opacity: 0.7;
 }
 
-.tools button.click:hover::before{
+.tools button#function.click:hover::before{
   content: '';
   display: none;
 }

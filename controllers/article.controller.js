@@ -9,14 +9,17 @@ async function createArticle(req, res) {
   const categories = await Article.findCategory();
   let sessionData = sessionFlash.getSessionData(req);
 
-  if(!sessionData) {
+  if (!sessionData) {
     sessionData = {
-      title: '',
-      content: ''
+      title: "",
+      content: "",
     };
   }
 
-  res.render("users/articles/createArticle", { sessionData: sessionData, categories: categories });
+  res.render("users/articles/createArticle", {
+    sessionData: sessionData,
+    categories: categories,
+  });
 }
 
 async function uploadArticle(req, res) {
@@ -47,7 +50,7 @@ async function uploadArticle(req, res) {
     );
     return;
   }
-  
+
   const userId = res.locals.uid;
   const user = await User.findUser(userId);
   let imageFile;
@@ -89,8 +92,21 @@ async function detailArticle(req, res) {
   });
 }
 
+async function deleteArticle(req, res) {
+  const id = req.params.id;
+
+  try {
+    await Article.deleteArticle(id);
+    res.redirect("/");
+  } catch (error) {
+    console.log(error);
+    return;
+  }
+}
+
 module.exports = {
   createArticle: createArticle,
   uploadArticle: uploadArticle,
   detailArticle: detailArticle,
+  deleteArticle: deleteArticle,
 };
