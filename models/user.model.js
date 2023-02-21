@@ -1,6 +1,6 @@
 const db = require("../data/database");
 const bcrypt = require("bcrypt");
-const mongodb = require('mongodb');
+const mongodb = require("mongodb");
 
 class User {
   constructor(username, nickname, email, confirmEmail, password) {
@@ -13,13 +13,21 @@ class User {
 
   static async findUser(userId) {
     const objectId = new mongodb.ObjectId(userId);
-    const user = await db.getDb().collection('users').findOne({_id: objectId}, {projection: {password: 0}});
-    return user;
+    try {
+      const user = await db
+        .getDb()
+        .collection("users")
+        .findOne({ _id: objectId }, { projection: { password: 0 } });
+      return user;
+    } catch (error) {
+      console.log(error);
+      return;
+    }
   }
 
   async save() {
-    const hashPassword = await bcrypt.hash(this.password, 12);
     try {
+      const hashPassword = await bcrypt.hash(this.password, 12);
       await db.getDb().collection("users").insertOne({
         username: this.username,
         nickname: this.nickname,

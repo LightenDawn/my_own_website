@@ -9,4 +9,6 @@ router.get('/createYourArticle', articleController.createArticle);
 
 router.post('/createYourArticle', imageUploadMiddleware,articleController.uploadArticle);
 
+router.get('/article_detail/:id', imageUploadMiddleware, articleController.detailArticle);
+
 module.exports = router;

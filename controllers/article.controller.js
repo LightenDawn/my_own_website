@@ -1,40 +1,96 @@
-const Article = require('../models/article.model');
-const User = require('../models/user.model');
+const Article = require("../models/article.model");
+const User = require("../models/user.model");
+// 防止cross-site scripting
+const xss = require("xss");
+const validation = require("../util/validation");
+const sessionFlash = require("../util/session-flash");
 
 async function createArticle(req, res) {
   const categories = await Article.findCategory();
-  
-  res.render('users/articles/createArticle', { categories: categories });
+  let sessionData = sessionFlash.getSessionData(req);
+
+  if(!sessionData) {
+    sessionData = {
+      title: '',
+      content: ''
+    };
+  }
+
+  res.render("users/articles/createArticle", { sessionData: sessionData, categories: categories });
 }
 
 async function uploadArticle(req, res) {
+  if (validation.checkEmpty(req.body.title)) {
+    sessionFlash.flashDataToSession(
+      req,
+      {
+        errorMessage: "標題不可為空, 請輸入適當的標題名稱",
+        ...req.body,
+      },
+      function () {
+        res.redirect("/article/createYourArticle");
+      }
+    );
+    return;
+  }
+
+  if (validation.checkEmpty(req.body.content)) {
+    sessionFlash.flashDataToSession(
+      req,
+      {
+        errorMessage: "內容不可為空, 請輸入欲分享的內容",
+        ...req.body,
+      },
+      function () {
+        res.redirect("/article/createYourArticle");
+      }
+    );
+    return;
+  }
+  
   const userId = res.locals.uid;
   const user = await User.findUser(userId);
   let imageFile;
-  
-  if (!req.file){
-    imageFile = '';
+
+  if (!req.file) {
+    imageFile = "default.jpg";
   } else {
     imageFile = req.file.filename;
   }
 
   if (!user) {
-    res.status(500).render('shared/500');
+    res.status(500).render("shared/500");
     return;
   }
 
-  const article = new Article({
+  let article = new Article({
     ...req.body,
     image: imageFile,
     author: user,
-    date: new Date()
+    date: new Date(),
   });
-  
+
+  let title = xss(article.title);
+  let content = xss(article.content);
+  article.content = content;
+  article.title = title;
+
   article.save();
-  res.redirect('/');
+  res.redirect("/");
+}
+
+async function detailArticle(req, res) {
+  const articleId = req.params.id;
+  const articleData = await Article.findArticleDetail(articleId);
+  const userId = articleData.author._id.toString();
+  res.render("users/articles/article_detail", {
+    articleData: articleData,
+    userId: userId,
+  });
 }
 
 module.exports = {
   createArticle: createArticle,
-  uploadArticle: uploadArticle
+  uploadArticle: uploadArticle,
+  detailArticle: detailArticle,
 };

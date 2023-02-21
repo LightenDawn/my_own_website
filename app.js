@@ -32,7 +32,7 @@ app.use(checkAuth);
 
 app.use(baseRoute);
 app.use(userRoute);
-app.use(articleRoute);
+app.use('/article' ,articleRoute);
 
 app.use(errorHandlerMiddleware);
 

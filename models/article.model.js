@@ -1,4 +1,5 @@
 const db = require("../data/database");
+const mongodb = require("mongodb");
 
 class Article {
   // constructor(title, category, content, author, date, image) {
@@ -40,17 +41,44 @@ class Article {
   }
 
   static async findCategory() {
-    const category = await db
-      .getDb()
-      .collection("article_title")
-      .find({})
-      .toArray();
-    return category;
+    try {
+      const category = await db
+        .getDb()
+        .collection("article_title")
+        .find({})
+        .toArray();
+      return category;
+    } catch (error) {
+      console.log(error);
+      return;
+    }
   }
 
   static async getAllArticles() {
-    const articles = await db.getDb().collection("articles").find({}).toArray();
-    return articles;
+    try {
+      const articles = await db
+        .getDb()
+        .collection("articles")
+        .find({})
+        .toArray();
+      return articles;
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+  }
+
+  static async findArticleDetail(id) {
+    try {
+      const articleId = new mongodb.ObjectId(id);
+      return await db
+        .getDb()
+        .collection("articles")
+        .findOne({ _id: articleId });
+    } catch (error) {
+      console.log(error);
+      return;
+    }
   }
 
   updateImageData() {
@@ -69,11 +97,16 @@ class Article {
       imageURL: this.imageURL,
       imagePath: this.imagePath,
     };
-    const article = await db
-      .getDb()
-      .collection("articles")
-      .insertOne(articleData);
-    return article;
+    try {
+      const article = await db
+        .getDb()
+        .collection("articles")
+        .insertOne(articleData);
+      return article;
+    } catch (error) {
+      console.log(error);
+      return;
+    }
   }
 }
 

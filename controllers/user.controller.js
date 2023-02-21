@@ -2,6 +2,7 @@ const User = require("../models/user.model");
 const validation = require("../util/validation");
 const sessionFlash = require("../util/session-flash");
 const authentication = require("../util/authentication");
+const xss = require('xss');
 
 function signup(req, res) {
   let sessionData = sessionFlash.getSessionData(req);
@@ -22,7 +23,7 @@ function signup(req, res) {
 async function userSign(req, res) {
   const enteredData = {
     username: req.body.username,
-    nickname: req.body.nickname,
+    nickname: xss(req.body.nickname),
     email: req.body.email,
     confirmEmail: req.body["confirm-email"],
     password: req.body.password,
