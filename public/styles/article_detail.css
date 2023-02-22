@@ -97,6 +97,10 @@ main p span {
   margin-top: -1rem;
 }
 
+#edit a {
+  color: rgba(100,65,164,1);
+}
+
 #delete button {
   border: none;
   background-color: rgba(222,220,238,1);
@@ -170,8 +174,8 @@ main p span {
 }
 
 .container #edit {
-  margin-left: 0.4rem;
-  margin-top: 0.2rem;
+  margin-left: 0.25rem;
+  margin-top: 0.3rem;
 }
 
 .container #delete {

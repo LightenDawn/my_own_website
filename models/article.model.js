@@ -38,6 +38,9 @@ class Article {
         year: "numeric",
       });
     }
+    if (articleData._id) {
+      this.id = articleData._id.toString();
+    }
   }
 
   static async findCategory() {
@@ -89,7 +92,7 @@ class Article {
       error.code = 404;
       throw error;
     }
-    
+
     const articleData = await db
       .getDb()
       .collection("articles")
@@ -104,9 +107,22 @@ class Article {
     return articleData;
   }
 
+  static async findArticleTitle(id) {
+    try {
+      const titleId = new mongodb.ObjectId(id);
+      return await db
+        .getDb()
+        .collection("article_title")
+        .findOne({ _id: titleId });
+    } catch (error) {
+      console.loe(error);
+      return;
+    }
+  }
+
   updateImageData() {
     this.imagePath = `upload_images/images/${this.image}`;
-    this.imageURL = `/cover/images/${this.image}`;
+    this.imageURL = `/cover/images/images/${this.image}`;
   }
 
   async save() {
@@ -120,16 +136,37 @@ class Article {
       imageURL: this.imageURL,
       imagePath: this.imagePath,
     };
-    try {
-      const article = await db
+
+    if (this.id) {
+      const articleId = new mongodb.ObjectId(this.id);
+
+      if (!this.image) {
+        delete articleData.image;
+        delete articleData.imageURL;
+        delete articleData.imagePath;
+      }
+      
+      await db
         .getDb()
         .collection("articles")
-        .insertOne(articleData);
-      return article;
-    } catch (error) {
-      console.log(error);
-      return;
+        .updateOne({ _id: articleId }, { $set: articleData });
+    } else {
+      try {
+        const article = await db
+          .getDb()
+          .collection("articles")
+          .insertOne(articleData);
+        return article;
+      } catch (error) {
+        console.log(error);
+        return;
+      }
     }
+  }
+
+  async replaceImage(newImage) {
+    this.image = newImage;
+    this.updateImageData();
   }
 }
 

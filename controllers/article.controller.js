@@ -4,9 +4,17 @@ const User = require("../models/user.model");
 const xss = require("xss");
 const validation = require("../util/validation");
 const sessionFlash = require("../util/session-flash");
+const { findUser } = require("../models/user.model");
 
-async function createArticle(req, res) {
-  const categories = await Article.findCategory();
+async function createArticle(req, res, next) {
+  let categories;
+  try {
+    categories = await Article.findCategory();
+  } catch (error) {
+    next(error);
+    return;
+  }
+
   let sessionData = sessionFlash.getSessionData(req);
 
   if (!sessionData) {
@@ -109,9 +117,64 @@ async function deleteArticle(req, res, next) {
   }
 }
 
+async function updateArticle(req, res, next) {
+  let categories;
+  try {
+    categories = await Article.findCategory();
+  } catch (error) {
+    next(error);
+    return;
+  }
+
+  try {
+    const articleData = await Article.findArticleDetail(req.params.id);
+    const articleTitle = await Article.findArticleTitle(articleData.category);
+    res.render("users/articles/updateArticle", {
+      categories: categories,
+      articleData: articleData,
+      articleTitle: articleTitle,
+    });
+  } catch (error) {
+    next(error);
+    return;
+  }
+}
+
+async function updatingArticle(req, res, next) {
+  let article;
+  try {
+    const user = await findUser(req.session.uid);
+    article = new Article({
+      ...req.body,
+      author: user,
+      date: new Date(),
+      _id: req.params.id,
+    });
+  } catch (error) {
+    next(error);
+    return;
+  }
+
+  if (req.file) {
+    article.replaceImage(req.file.filename);
+  }
+
+
+  try {
+    await article.save();
+  } catch (error) {
+    next(error);
+    return;
+  }
+
+  res.redirect("/");
+}
+
 module.exports = {
   createArticle: createArticle,
   uploadArticle: uploadArticle,
   detailArticle: detailArticle,
   deleteArticle: deleteArticle,
+  updateArticle: updateArticle,
+  updatingArticle: updatingArticle,
 };
