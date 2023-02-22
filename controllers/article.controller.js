@@ -159,7 +159,6 @@ async function updatingArticle(req, res, next) {
     article.replaceImage(req.file.filename);
   }
 
-
   try {
     await article.save();
   } catch (error) {
@@ -170,6 +169,16 @@ async function updatingArticle(req, res, next) {
   res.redirect("/");
 }
 
+async function myAllArticles(req, res, next) {
+  try {
+    const articles = await Article.getMyAllArticles(req.session.uid);
+    res.render('users/articles/my_articles', { articles: articles });
+  } catch (error) {
+    next(error);
+    return;
+  }
+}
+
 module.exports = {
   createArticle: createArticle,
   uploadArticle: uploadArticle,
@@ -177,4 +186,5 @@ module.exports = {
   deleteArticle: deleteArticle,
   updateArticle: updateArticle,
   updatingArticle: updatingArticle,
+  myAllArticles: myAllArticles,
 };

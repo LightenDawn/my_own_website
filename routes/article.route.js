@@ -17,4 +17,6 @@ router.get('/updateYourArticle/:id', imageUploadMiddleware, articleController.up
 
 router.post('/updateYourArticle/:id', imageUploadMiddleware, articleController.updatingArticle);
 
+router.get('/myAllArticles', imageUploadMiddleware, articleController.myAllArticles);
+
 module.exports = router;

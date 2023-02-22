@@ -1,0 +1,12 @@
+body {
+  background-color: var(--color-pink-1);
+}
+
+#article li {
+  background-color: white;
+  box-shadow: 4px 4px 12px 4px rgba(0, 0, 0, 0.2);
+}
+
+#article li:hover {
+  box-shadow: var(--shadow-article);
+}

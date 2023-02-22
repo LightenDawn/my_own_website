@@ -71,6 +71,20 @@ class Article {
     }
   }
 
+  static async getMyAllArticles(id) {
+    try {
+      const userId = new mongodb.ObjectId(id);
+      const userArticles = await db
+        .getDb()
+        .collection("articles")
+        .find({ "author._id": userId }).sort({"date": -1}).toArray();
+      return userArticles;
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+  }
+
   static async deleteArticle(id) {
     const articleId = new mongodb.ObjectId(id);
     if (!articleId) {
@@ -145,7 +159,7 @@ class Article {
         delete articleData.imageURL;
         delete articleData.imagePath;
       }
-      
+
       await db
         .getDb()
         .collection("articles")
