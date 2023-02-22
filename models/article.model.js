@@ -82,16 +82,26 @@ class Article {
   }
 
   static async findArticleDetail(id) {
+    let articleId;
     try {
-      const articleId = new mongodb.ObjectId(id);
-      return await db
-        .getDb()
-        .collection("articles")
-        .findOne({ _id: articleId });
+      articleId = new mongodb.ObjectId(id);
     } catch (error) {
-      console.log(error);
-      return;
+      error.code = 404;
+      throw error;
     }
+    
+    const articleData = await db
+      .getDb()
+      .collection("articles")
+      .findOne({ _id: articleId });
+
+    if (!articleData) {
+      const error = new Error("沒有此篇文章存在");
+      error.code = 404;
+      throw error;
+    }
+
+    return articleData;
   }
 
   updateImageData() {

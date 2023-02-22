@@ -8,6 +8,8 @@ const createSessionConfig = require('./config/session');
 const errorHandlerMiddleware = require('./middlewares/error_handler');
 const csrfTokenMiddleware = require('./middlewares/csrfToken');
 const checkAuth = require('./middlewares/checkAuth');
+const protectRouteMiddleware = require('./middlewares/protect-routes');
+const notFoundMiddleware = require('./middlewares/notFound');
 const db = require("./data/database");
 const baseRoute = require("./routes/base.route");
 const userRoute = require("./routes/user.route");
@@ -32,7 +34,9 @@ app.use(checkAuth);
 
 app.use(baseRoute);
 app.use(userRoute);
-app.use('/article' ,articleRoute);
+app.use('/article', protectRouteMiddleware ,articleRoute);
+
+app.use(notFoundMiddleware);
 
 app.use(errorHandlerMiddleware);
 

@@ -82,24 +82,29 @@ async function uploadArticle(req, res) {
   res.redirect("/");
 }
 
-async function detailArticle(req, res) {
+async function detailArticle(req, res, next) {
   const articleId = req.params.id;
-  const articleData = await Article.findArticleDetail(articleId);
-  const userId = articleData.author._id.toString();
-  res.render("users/articles/article_detail", {
-    articleData: articleData,
-    userId: userId,
-  });
+  try {
+    const articleData = await Article.findArticleDetail(articleId);
+    const userId = articleData.author._id.toString();
+    res.render("users/articles/article_detail", {
+      articleData: articleData,
+      userId: userId,
+    });
+  } catch (error) {
+    next(error);
+    return;
+  }
 }
 
-async function deleteArticle(req, res) {
+async function deleteArticle(req, res, next) {
   const id = req.params.id;
 
   try {
     await Article.deleteArticle(id);
     res.redirect("/");
   } catch (error) {
-    console.log(error);
+    next(error);
     return;
   }
 }
