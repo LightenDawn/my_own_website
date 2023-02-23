@@ -4,7 +4,8 @@ const User = require("../models/user.model");
 const xss = require("xss");
 const validation = require("../util/validation");
 const sessionFlash = require("../util/session-flash");
-const { findUser } = require("../models/user.model");
+const fs = require('fs');
+const path = require('path');
 
 async function createArticle(req, res, next) {
   let categories;
@@ -142,14 +143,16 @@ async function updateArticle(req, res, next) {
 
 async function updatingArticle(req, res, next) {
   let article;
+  let article_image;
   try {
-    const user = await findUser(req.session.uid);
+    const user = await User.findUser(req.session.uid);
     article = new Article({
       ...req.body,
       author: user,
       date: new Date(),
       _id: req.params.id,
     });
+    article_image = await Article.findArticleDetail(req.params.id);
   } catch (error) {
     next(error);
     return;
@@ -157,6 +160,7 @@ async function updatingArticle(req, res, next) {
 
   if (req.file) {
     article.replaceImage(req.file.filename);
+    fs.unlinkSync(path.join(__dirname, '../upload_image/images/' + article_image.image));
   }
 
   try {
