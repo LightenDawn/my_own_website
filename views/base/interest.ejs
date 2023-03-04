@@ -12,7 +12,7 @@
       </div>
       <ul id="article">
         <% for (const article of lifestyleArticles) { %>
-          <li>
+          <li title="<%= article.title %>">
             <a href="/article_detail/<%= article._id %>">
               <div class="image">
                 <img src='<%= article.imageURL %>' alt="<%= article.title %>">
