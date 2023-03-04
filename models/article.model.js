@@ -134,15 +134,26 @@ class Article {
     }
   }
 
+  static async findSingleCategory(title) {
+    try {
+      const articles = await db.getDb().collection('articles').find({'category.title': title}).toArray();
+      return articles;
+    } catch(error) {
+      return console.log(error);
+    }
+  }
+
   updateImageData() {
     this.imagePath = `upload_images/images/${this.image}`;
     this.imageURL = `/cover/images/images/${this.image}`;
   }
 
   async save() {
+    const categoryId = new mongodb.ObjectId(this.category);
+    const categoryName= await db.getDb().collection('article_title').findOne({_id: categoryId});
     const articleData = {
       title: this.title,
-      category: this.category,
+      category: categoryName,
       content: this.content,
       author: this.author,
       date: this.formattedDate,

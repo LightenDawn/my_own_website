@@ -26,7 +26,12 @@ main h1 {
   font-size: 1.5rem;
 }
 
+footer {
+  margin-top: 10rem;
+}
+
 #post_article {
+  margin-top: 2rem;
   font-size: 0.5rem;
 }
 

@@ -1,17 +1,17 @@
-<%- include('../../shared/includes/head', { pageTitle: "我發表的所有文章" }) %>
-  <meta name="description" content="我發表過的所有文章，都匯集在這個網頁上">
+<%- include('../shared/includes/head', { pageTitle: "其他" }) %>
+  <meta name="description" content="任何想分享的各種文章">
   <link rel="stylesheet" href="/styles/home.css">
   <link rel="stylesheet" href="/styles/myarticle.css">
 </head>
 <body>
-  <%- include('../../shared/includes/header') %>
+  <%- include('../shared/includes/header') %>
   <main>
-    <% if (articles !== [] && articles.length > 0) { %>
-      <div class="author_article">
-        <p><span><%= articles[0].author.nickname %></span>的文章</p>
+    <% if (lifestyleArticles !== [] && lifestyleArticles.length > 0) { %>
+      <div class="title">
+        <h1>其他</h1>
       </div>
       <ul id="article">
-        <% for (const article of articles) { %>
+        <% for (const article of lifestyleArticles) { %>
           <li>
             <a href="/article_detail/<%= article._id %>">
               <div class="image">
@@ -28,8 +28,7 @@
     <% } else { %>
       <div class="no-content">
         <h1>目前尚未有文章</h1>
-        <a href="/article/createYourArticle" class="btn">前往發表屬於你/妳的文章</a>
       </div>
     <% } %>
   </main>
-<%- include('../../shared/includes/footer') %>
+<%- include('../shared/includes/footer') %>

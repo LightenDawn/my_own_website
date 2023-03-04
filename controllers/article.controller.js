@@ -91,20 +91,20 @@ async function uploadArticle(req, res) {
   res.redirect("/");
 }
 
-async function detailArticle(req, res, next) {
-  const articleId = req.params.id;
-  try {
-    const articleData = await Article.findArticleDetail(articleId);
-    const userId = articleData.author._id.toString();
-    res.render("users/articles/article_detail", {
-      articleData: articleData,
-      userId: userId,
-    });
-  } catch (error) {
-    next(error);
-    return;
-  }
-}
+// async function detailArticle(req, res, next) {
+//   const articleId = req.params.id;
+//   try {
+//     const articleData = await Article.findArticleDetail(articleId);
+//     const userId = articleData.author._id.toString();
+//     res.render("users/articles/article_detail", {
+//       articleData: articleData,
+//       userId: userId,
+//     });
+//   } catch (error) {
+//     next(error);
+//     return;
+//   }
+// }
 
 async function deleteArticle(req, res, next) {
   const id = req.params.id;
@@ -186,7 +186,6 @@ async function myAllArticles(req, res, next) {
 module.exports = {
   createArticle: createArticle,
   uploadArticle: uploadArticle,
-  detailArticle: detailArticle,
   deleteArticle: deleteArticle,
   updateArticle: updateArticle,
   updatingArticle: updatingArticle,

@@ -5,7 +5,7 @@ main {
 
 #article {
   display: grid;
-  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-rows: 1fr;
   width: 100%;
   max-width: 60rem;
   margin: 0 auto;
@@ -84,6 +84,21 @@ main {
   font-weight: bold;
   margin: var(--space-2) 0 0 0.2rem;
   font-size: 1.2rem;
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.all_articles {
+  text-align: center;
+  margin-top: 3rem;
+}
+
+.all_articles p {
+  font-weight: bold;
+  font-size: var(--space-8);
+  color: var(--font-color-primary-700);
 }
 
 @media (min-width: 48rem) {

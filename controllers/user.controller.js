@@ -17,6 +17,10 @@ function signup(req, res) {
     };
   }
 
+  if (res.locals.isAuth) {
+    return res.redirect('/');
+  }
+  
   res.render("users/auth/signup", { inputData: sessionData });
 }
 
@@ -109,6 +113,9 @@ function login(req, res) {
     };
   }
 
+  if(res.locals.isAuth) {
+    return res.redirect('/');
+  }
   res.render("users/auth/login", { inputData: sessionData });
 }
 

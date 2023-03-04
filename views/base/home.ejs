@@ -1,14 +1,18 @@
-<%- include('../shared/includes/head', { pageTitle: "首頁" }) %>
+<%- include('../shared/includes/head', { pageTitle: "個人部落格 - 所有文章" }) %>
+  <meta name="description" content="在個人部落格中，與他人踴躍分享生活的點點滴滴，也可以抒發自我的個人情緒!">
   <link rel="stylesheet" href="/styles/home.css">
 </head>
 <body>
   <%- include('../shared/includes/header') %>
   <main>
     <% if (articles !== [] && articles.length > 0) { %>
+      <div class="all_articles">
+        <p>所有文章</p>
+      </div>
       <ul id="article">
         <% for (const article of articles) { %>
-          <li>
-            <a href="/article/article_detail/<%= article._id %>">
+          <li title="<%= article.title %>">
+            <a href="/article_detail/<%= article._id %>">
               <div class="image">
                 <img src='<%= article.imageURL %>' alt="<%= article.title %>">
               </div>
@@ -21,13 +25,17 @@
         <% } %>
       </ul>
     <% } else { %>
-      <div class="no-content">
-        <h1>目前尚未有文章</h1>
-        <a href="/login" class="btn">登入以建立文章</a>
-      </div>
+      <% if (!locals.isAuth) { %>
+        <div class="no-content">
+          <h1>目前尚未有文章</h1>
+          <a href="/login" class="btn">登入以建立文章</a>
+        </div>
+      <% } else { %>
+        <div class="no-content">
+          <h1>目前尚未有文章</h1>
+          <a href="/article/createYourArticle" class="btn">發表屬於你的文章</a>
+        </div>
+      <% } %>
     <% } %>
   </main>
-  <footer>
-
-  </footer>
 <%- include('../shared/includes/footer') %>
