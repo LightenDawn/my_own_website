@@ -20,6 +20,7 @@ html {
   --color-error-background: rgba(248,220,220,1);
 
   --color-footer: rgb(43, 42, 42);
+  --color-paging: rgba(23,34,59,0.5);
 
   --font-color-primary-100: rgba(234,234,234,1);
   --font-color-primary-400: rgba(163,158,158,1);
@@ -71,7 +72,7 @@ a {
 }
 
 footer {
-  margin-top: 10rem;
+  margin-top: 5rem;
   background-color: var(--color-footer);
   height: 100%;
   padding: 0.5rem;
@@ -271,7 +272,7 @@ footer * {
 
 @media (min-width: 48rem) {
   footer {
-    margin-top: 15rem;
+    margin-top: 5rem;
   }
 
   #header-logo {

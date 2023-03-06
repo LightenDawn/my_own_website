@@ -24,6 +24,7 @@
           </li>
         <% } %>
       </ul>
+      <%- include('../shared/includes/paging', {route: ''}) %>
     <% } else { %>
       <% if (!locals.isAuth) { %>
         <div class="no-content">

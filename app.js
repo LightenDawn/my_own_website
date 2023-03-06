@@ -20,6 +20,7 @@ const app = express();
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 app.use(express.static("public"));
 app.use('/cover/images', express.static('upload_image'));

@@ -26,12 +26,15 @@ class Article {
     this.category = articleData.myCategory;
     this.content = articleData.content;
     this.image = articleData.image;
-    this.imagePath = `upload_image/images/${articleData.image}`;
-    this.imageURL = `/cover/images/images/${articleData.image}`;
+    // this.imagePath = `upload_image/images/${articleData.image}`;
+    this.imageURL = articleData.imageURL;
     this.author = articleData.author;
     this.date = articleData.date;
     if (this.date) {
       this.formattedDate = this.date.toLocaleDateString("zh-TW", {
+        second: 'numeric',
+        minute: 'numeric',
+        hour: 'numeric',
         weekday: "short",
         day: "numeric",
         month: "long",
@@ -57,31 +60,68 @@ class Article {
     }
   }
 
-  static async getAllArticles() {
-    try {
-      const articles = await db
-        .getDb()
-        .collection("articles")
-        .find({})
-        .toArray();
-      return articles;
-    } catch (error) {
-      console.log(error);
-      return;
+  static async getAllArticles(page, limit) {
+    if (!page && !limit) {
+      try {
+        const articles = await db
+          .getDb()
+          .collection("articles")
+          .find({})
+          .toArray();
+        return articles;
+      } catch (error) {
+        console.log(error);
+        return;
+      }
+    } else {
+      try {
+        const articles = await db
+          .getDb()
+          .collection("articles")
+          .find({})
+          .limit(limit)
+          .skip((page - 1) * limit)
+          .sort({date:-1})
+          .toArray();
+        return articles;
+      } catch (error) {
+        console.log(error);
+        return;
+      }
     }
   }
 
-  static async getMyAllArticles(id) {
-    try {
-      const userId = new mongodb.ObjectId(id);
-      const userArticles = await db
-        .getDb()
-        .collection("articles")
-        .find({ "author._id": userId }).sort({"date": -1}).toArray();
-      return userArticles;
-    } catch (error) {
-      console.log(error);
-      return;
+  static async getMyAllArticles(id, page, limit) {
+    if (!page && !limit) {
+      try {
+        const userId = new mongodb.ObjectId(id);
+        const userArticles = await db
+          .getDb()
+          .collection("articles")
+          .find({ "author._id": userId })
+          .sort({ date: -1 })
+          .toArray();
+        return userArticles;
+      } catch (error) {
+        console.log(error);
+        return;
+      }
+    } else {
+      try {
+        const userId = new mongodb.ObjectId(id);
+        const userArticles = await db
+          .getDb()
+          .collection("articles")
+          .find({ "author._id": userId })
+          .limit(limit)
+          .skip((page - 1) * limit)
+          .sort({ date: -1 })
+          .toArray();
+        return userArticles;
+      } catch (error) {
+        console.log(error);
+        return;
+      }
     }
   }
 
@@ -129,28 +169,45 @@ class Article {
         .collection("article_title")
         .findOne({ _id: titleId });
     } catch (error) {
-      console.loe(error);
+      console.log(error);
       return;
     }
   }
 
-  static async findSingleCategory(title) {
-    try {
-      const articles = await db.getDb().collection('articles').find({'category.title': title}).toArray();
-      return articles;
-    } catch(error) {
-      return console.log(error);
+  static async findSingleCategory(title, page, limit) {
+    if (!page && !limit) {
+      try {
+        const articles = await db
+          .getDb()
+          .collection("articles")
+          .find({ "category.title": title })
+          .toArray();
+        return articles;
+      } catch (error) {
+        return console.log(error);
+      }
+    } else {
+      try {
+        const articles = await db
+          .getDb()
+          .collection("articles")
+          .find({ "category.title": title })
+          .limit(limit)
+          .skip((page - 1) * limit)
+          .toArray();
+        return articles;
+      } catch (error) {
+        return console.log(error);
+      }
     }
-  }
-
-  updateImageData() {
-    this.imagePath = `upload_images/images/${this.image}`;
-    this.imageURL = `/cover/images/images/${this.image}`;
   }
 
   async save() {
     const categoryId = new mongodb.ObjectId(this.category);
-    const categoryName= await db.getDb().collection('article_title').findOne({_id: categoryId});
+    const categoryName = await db
+      .getDb()
+      .collection("article_title")
+      .findOne({ _id: categoryId });
     const articleData = {
       title: this.title,
       category: categoryName,
@@ -159,7 +216,6 @@ class Article {
       date: this.formattedDate,
       image: this.image,
       imageURL: this.imageURL,
-      imagePath: this.imagePath,
     };
 
     if (this.id) {
@@ -168,7 +224,6 @@ class Article {
       if (!this.image) {
         delete articleData.image;
         delete articleData.imageURL;
-        delete articleData.imagePath;
       }
 
       await db
@@ -189,9 +244,9 @@ class Article {
     }
   }
 
-  async replaceImage(newImage) {
-    this.image = newImage;
-    this.updateImageData();
+  async replaceImage(name, url) {
+    this.image = name;
+    this.imageURL = url;
   }
 }
 

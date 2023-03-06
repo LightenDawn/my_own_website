@@ -4,8 +4,16 @@ const User = require("../models/user.model");
 const xss = require("xss");
 const validation = require("../util/validation");
 const sessionFlash = require("../util/session-flash");
+// 刪除本地檔案
 const fs = require('fs');
 const path = require('path');
+const cloudinary = require('cloudinary').v2;
+
+cloudinary.config({
+  cloud_name: process.env.cloud_name,
+  api_key: process.env.api_key,
+  api_secret: process.env.api_secret
+});
 
 async function createArticle(req, res, next) {
   let categories;
@@ -62,12 +70,16 @@ async function uploadArticle(req, res) {
 
   const userId = res.locals.uid;
   const user = await User.findUser(userId);
-  let imageFile;
+  let imageFile, imageURL, image;
 
   if (!req.file) {
     imageFile = "default.jpg";
+    imageURL = "https://res.cloudinary.com/dzjktn9na/image/upload/v1677931834/myWeb/default.jpg";
   } else {
     imageFile = req.file.filename;
+    image = await cloudinary.uploader.upload(req.file.path, {folder: 'myWeb', public_id: path.parse(imageFile).name});
+    //上傳完畢後，將本地的圖片檔案刪除
+    await fs.unlinkSync(req.file.path);
   }
 
   if (!user) {
@@ -75,9 +87,14 @@ async function uploadArticle(req, res) {
     return;
   }
 
+  if(!imageURL) {
+    imageURL = image.secure_url;
+  }
+
   let article = new Article({
     ...req.body,
     image: imageFile,
+    imageURL: imageURL,
     author: user,
     date: new Date(),
   });
@@ -108,8 +125,13 @@ async function uploadArticle(req, res) {
 
 async function deleteArticle(req, res, next) {
   const id = req.params.id;
+  const articleData = await Article.findArticleDetail(id);
 
   try {
+    const imageName = path.parse(articleData.image).name;
+    if (imageName !== 'default') {
+      await cloudinary.uploader.destroy('myWeb/' + path.parse(articleData.image).name);
+    }
     await Article.deleteArticle(id);
     res.redirect("/");
   } catch (error) {
@@ -129,7 +151,7 @@ async function updateArticle(req, res, next) {
 
   try {
     const articleData = await Article.findArticleDetail(req.params.id);
-    const articleTitle = await Article.findArticleTitle(articleData.category);
+    const articleTitle = await Article.findArticleTitle(articleData.category._id);
     res.render("users/articles/updateArticle", {
       categories: categories,
       articleData: articleData,
@@ -159,8 +181,11 @@ async function updatingArticle(req, res, next) {
   }
 
   if (req.file) {
-    article.replaceImage(req.file.filename);
-    fs.unlinkSync(path.join(__dirname, '../upload_image/images/' + article_image.image));
+    const image = await cloudinary.uploader.upload(req.file.path, {folder:'myWeb', public_id: path.parse(req.file.filename).name});
+    await cloudinary.uploader.destroy('myWeb/' + path.parse(article_image.image).name);
+    await fs.unlinkSync(req.file.path);
+    const imageName = req.file.filename;
+    article.replaceImage(imageName, image.secure_url);
   }
 
   try {
@@ -175,8 +200,16 @@ async function updatingArticle(req, res, next) {
 
 async function myAllArticles(req, res, next) {
   try {
-    const articles = await Article.getMyAllArticles(req.session.uid);
-    res.render('users/articles/my_articles', { articles: articles });
+    let articles = await Article.getMyAllArticles(req.session.uid);
+    let articlesTotalLength = Math.ceil(articles.length / 9);
+    let page = parseInt(req.query.page);
+    let limit = parseInt(req.query.limit);
+    if(!page || !limit) {
+      page = 1;
+      limit = 9;
+    }
+    articles = await Article.getMyAllArticles(req.session.uid, page, limit);
+    res.render('users/articles/my_articles', { articles: articles, totalLength: articlesTotalLength });
   } catch (error) {
     next(error);
     return;

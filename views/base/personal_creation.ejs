@@ -6,12 +6,12 @@
 <body>
   <%- include('../shared/includes/header') %>
   <main>
-    <% if (lifestyleArticles !== [] && lifestyleArticles.length > 0) { %>
+    <% if (mycreation !== [] && mycreation.length > 0) { %>
       <div class="title">
         <h1>個人創作</h1>
       </div>
       <ul id="article">
-        <% for (const article of lifestyleArticles) { %>
+        <% for (const article of mycreation) { %>
           <li title="<%= article.title %>">
             <a href="/article_detail/<%= article._id %>">
               <div class="image">
@@ -25,6 +25,7 @@
           </li>
         <% } %>
       </ul>
+      <%- include('../shared/includes/paging', {route: 'creation'}) %>
     <% } else { %>
       <div class="no-content">
         <h1>目前尚未有文章</h1>
